@@ -11,7 +11,7 @@ model = models.resnet18(weights = None)
 model.fc = torch.nn.Linear(model.fc.in_features, 2)
 
 #importar mi model
-model.load_state_dict(torch.load('fapitest\model_class.pth', map_location=torch.device('cpu')))
+model.load_state_dict(torch.load('/model_class.pth', map_location=torch.device('cpu')))
 model.eval()
 
 transform = transforms.Compose([
@@ -22,6 +22,13 @@ transform = transforms.Compose([
 ])
 classs = ['barco', 'carro']
 
+@app.get('/')
+def init():
+  return {
+    "mensaje": "¡API de Clasificación de Vehículos activa!",
+    "estado": "Online",
+    "instrucciones": "Ve a /docs para probar el modelo"
+  }
 
 #Ahora si lo api coso
 @app.post('/predecir/')
